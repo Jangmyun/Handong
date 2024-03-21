@@ -1,6 +1,7 @@
 #include <iostream>
-using namespace std;
 #include <string>
+using namespace std;
+
 #define SIZE 100
 #define EOS '$'
 
@@ -21,38 +22,34 @@ op_stack::op_stack()
 {
   top = 0;
 }
-
 void op_stack::push(char x)
 {
   s[top] = x;
   top++;
 }
-
 char op_stack::pop()
 {
   top--;
   return (s[top]);
 }
-
 bool op_stack::empty()
 {
   return (top == 0);
 }
-
 char op_stack::top_element()
 {
   return (s[top - 1]);
 }
 
-bool is_operand(char ch)
+bool isOperand(char ch)
 {
-  if ((65 <= ch <= 90) || (97 <= ch <= 122))
+  if ((ch == '(') || (ch == ')') || (ch == '+') || (ch == '-') || (ch == '*') || (ch == '/') || (ch == '%') || (ch == '$'))
   {
-    return true;
+    return false;
   }
   else
   {
-    return false;
+    return true;
   }
 }
 
@@ -62,33 +59,58 @@ int get_precedence(char op)
   {
     return 0;
   }
-  else if ((op == '+') || (op == '-'))
+  if ((op == '+') || (op == '-'))
   {
     return 1;
   }
-  else if ((op == '*') || (op == '/'))
+  if ((op == '*') || (op == '/') || (op == '%'))
   {
     return 2;
   }
-  else
-  {
-    return (-1);
-  }
+  return -1;
 }
 
 int main()
 {
   string input, output;
+
   op_stack stack1;
+  cout << "Input an infix expression to convert: ";
+  cin >> input;
   input += EOS;
   stack1.push(EOS);
 
-  cout << "Input an infix expression to convert: ";
-  cin >> input;
-
-  for (int i = 0; i < input.size(); i++)
+  // a*(b+c)-d/e
+  for (int i = 0; i < input.length(); i++)
   {
+    if (isOperand(input[i]))
+    {
+      output += input[i];
+    }
+    if (input[i] == '(')
+    {
+      stack1.push(input[i]);
+    }
+    if (input[i] == ')')
+    {
+      while (stack1.top_element() != '(' && stack1.top_element() != '$')
+      {
+        output += stack1.pop();
+      }
+      stack1.pop();
+    }
+    if (!isOperand(input[i]) && input[i] != '(')
+    {
+      while (get_precedence(input[i]) < get_precedence(stack1.top_element()) && stack1.top_element() != '$')
+      {
+        output += stack1.pop();
+      }
+      stack1.push(input[i]);
+    }
   }
-
-  return 0;
+  while (stack1.empty())
+  {
+    output += stack1.pop();
+  }
+  cout << output << endl;
 }
