@@ -80,18 +80,17 @@ int main()
   input += EOS;
   stack1.push(EOS);
 
-  // a*(b+c)-d/e
-  for (int i = 0; i < input.length(); i++)
+  for (int i = 0; i < input.length(); i++) // input 길이만큼 반복
   {
-    if (isOperand(input[i]))
+    if (isOperand(input[i])) // 피연산자면 바로 출력
     {
       output += input[i];
     }
-    if (input[i] == '(')
+    if (input[i] == '(') // '(' 라면 stack에 넣기
     {
       stack1.push(input[i]);
     }
-    if (input[i] == ')')
+    if (input[i] == ')') // ')' 라면 '(' 나올 때 까지 pop 하고 '(' 제거
     {
       while (stack1.top_element() != '(' && stack1.top_element() != '$')
       {
@@ -99,18 +98,18 @@ int main()
       }
       stack1.pop();
     }
-    if (!isOperand(input[i]) && input[i] != '(')
+    if (!isOperand(input[i]) && input[i] != '(') // 연산자라면 stack top 원소의 precedence가 토큰의 precedence 보다 낮아질 때까지 pop
     {
       while (get_precedence(input[i]) < get_precedence(stack1.top_element()) && stack1.top_element() != '$')
       {
         output += stack1.pop();
       }
-      stack1.push(input[i]);
+      stack1.push(input[i]); // pop 끝난 후 토큰을 push
     }
   }
-  while (stack1.empty())
+  while (stack1.empty()) // 남은 원소를 모두 pop
   {
     output += stack1.pop();
   }
-  cout << output << endl;
+  cout << output << endl; // 결과값 출력
 }
