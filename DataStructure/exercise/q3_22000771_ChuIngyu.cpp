@@ -43,6 +43,7 @@ void my_list::insert_node(node t)
   if (head == NULL)
   {
     head = tmp;
+    head->link = NULL;
     return;
   }
   if (head->score > tmp->score)
@@ -52,9 +53,23 @@ void my_list::insert_node(node t)
     return;
   }
   node *i;
+  node *next;
   for (i = head; i != NULL; i = i->link)
   {
-    node *next = i->link;
+    next = i->link;
+    if (!(next != NULL && next->score < tmp->score))
+    {
+      break;
+    }
+  }
+  if (i == NULL)
+  {
+    i->link = tmp;
+  }
+  else
+  {
+    i->link = tmp;
+    tmp->link = next;
   }
 }
 
