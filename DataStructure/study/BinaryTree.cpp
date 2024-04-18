@@ -158,8 +158,7 @@ int node_insert_left(node *p, string tname, node tnode) {
   } else {  // root가 찾는 tname이 아니면 left 에서 같은 작업 수행
     int result = node_insert_left(p->left, tname, tnode);
     if (result != 0) {  // root의 결과가 0이 아니면 (노드 못찾은 경우 아니면 )
-                        // 그대로 result 리턴
-      return result;
+      return result;  // 그대로 result 리턴
     }
     return node_insert_left(
         p->right, tname,
@@ -169,10 +168,7 @@ int node_insert_left(node *p, string tname, node tnode) {
 
 int my_tree::insert_left(string tname, node t) {
   // 1: insert 성공 // 0: tname 노드가 없음 // -1: tname노드 있는데 NULL아님
-
-  int result;
-
-  result = node_insert_left(root, tname, t);
+  int result = node_insert_left(root, tname, t);
   if (result == 1) {
     node_count++;
   }
@@ -206,10 +202,8 @@ int node_insert_right(node *p, string tname, node tnode) {
 }
 
 int my_tree::insert_right(string tname, node t) {
-  int result;
-
-  result = node_insert_right(root, tname, t);
-
+  // 1: insert 성공 // 0: tname 노드가 없음 // -1: tname노드 있는데 NULL아님
+  int result = node_insert_right(root, tname, t);
   if (result == 1) {
     node_count++;
   }
