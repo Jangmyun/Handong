@@ -16,96 +16,22 @@ void node::set_data(string s, double n) {
   score = n;
 }
 
-class my_queue {
- public:
-  node *q[100];
-  int front;
-  int rear;
-  my_queue();
-  bool queue_empty();
-  void add(node *p);
-  node *del();
-};
-
-my_queue::my_queue() { front = rear = 0; }
-
-bool my_queue::queue_empty() { return (front == rear); }
-
-void my_queue::add(node *p) {
-  q[rear] = p;
-  rear = (rear + 1) % 100;
-}
-
-node *my_queue::del() {
-  node *tmp;
-  tmp = q[front];
-  front = (front + 1) % 100;
-  return tmp;
-}
-
-class s_record {
- public:
-  string name;
-  double score;
-};
 class my_tree {
  public:
-  int node_count;  // 현재 node 수
-  node *root;      // root를 가리키는 pointer
-  my_tree();       // 초기화
-
-  my_tree(s_record a[],
-          int n);  // array a의 n개 원소를 level order 순서로 초기화
-
+  int node_count;                          // 현재 node 수
+  node *root;                              // root를 가리키는 pointer
+  my_tree();                               // 초기화
   int insert_root(node t);                 // root로 node내용 t추가
   int insert_left(string tname, node t);   // tname의 node 왼쪽에 t 추가
   int insert_right(string tname, node t);  // tname의 node 왼쪽에 t 추가
 
-  void print_data_inorder();  // inorder 순서로 모든 node의 값 출력
-
-  void insert_node_levelorder(node t);  // level order의 첫번째 빈자리에t를 추가
+  int count_high_score(int t);
+  double d_min_max();  // 최대 점수와 최소 점수의 차이 값
 };
 
 my_tree::my_tree() {
   node_count = 0;
   root = NULL;
-}
-
-void my_tree::insert_node_levelorder(node t) {
-  my_queue q;
-  node *p;
-  p = new node;
-  *p = t;
-
-  node *tmp;
-
-  if (root == NULL) {
-    root = p;
-  }
-  q.add(root);
-  while (1) {
-    if (q.queue_empty()) {
-      return;
-    }
-    tmp = q.del();
-
-    // if(t.left !=NULL){
-    //   q.add(p->left)
-    // }
-
-    if (tmp->left == NULL) {
-      tmp->left = p;
-      return;
-    } else if (tmp->right == NULL) {
-      tmp->right = p;
-      return;
-    }
-  }
-}
-
-my_tree::my_tree(s_record a[], int n) {
-  for (int i = 0; i < n; i++) {
-  }
 }
 
 int my_tree::insert_root(node t) {
@@ -138,6 +64,7 @@ int node_insert_left(node *p, string tname, node tnode) {
     return node_insert_left(p->right, tname, tnode);
   }
 }
+
 int node_insert_right(node *p, string tname, node tnode) {
   int result;
   if (p == NULL) return 0;
@@ -173,15 +100,11 @@ int my_tree::insert_right(string tname, node tnode) {
   return result;
 }
 
-void inorder_print(node *p) {
-  if (p == NULL) return;
+int n_high_score(node *p, double t) {}
 
-  inorder_print(p->left);
-  cout << p->name << " : " << p->score << "\n";
-  inorder_print(p->right);
-}
+int my_tree::count_high_score(int t) { return n_high_score(root, t); }
 
-void my_tree::print_data_inorder() { inorder_print(root); }
+double my_tree::d_min_max() {}
 
 int main() {
   my_tree thetree;
@@ -203,29 +126,19 @@ int main() {
   tmp.set_data("Jung", 62.3);
   thetree.insert_left("Cho", tmp);
 
-  // insert nodes  in level order
-  tmp.set_data("Son", 95.3);
-  thetree.insert_node_levelorder(tmp);
+  int n, t;
+  double d;
 
-  tmp.set_data("Joo", 58.2);
-  thetree.insert_node_levelorder(tmp);
+  t = 80.0;  // the test data
 
-  cout << "-- Inorder sequence after the insertion of two nodes \n";
-  thetree.print_data_inorder();
+  n = thetree.count_high_score(t);
 
-  cout << "\n\nThe number of nodes = " << thetree.node_count << endl;
-  s_record list[5] = {{"Kim", 55.5},
-                      {"Lee", 66.6},
-                      {"Park", 77.7},
-                      {"Choi", 88.8},
-                      {"Ryu", 99.9}};
-
-  my_tree tree2(list, 5);
-
-  cout << "\n\n-- Inorder sequence of the second tree\n";
-  tree2.print_data_inorder();
-
-  cout << "\n\nThe number of nodes in second tree = " << tree2.node_count
+  cout << "The number of students scoring over " << t << " points : " << n
        << endl;
+
+  d = thetree.d_min_max();
+
+  cout << "The difference between the highest and lowest : " << d << endl;
+
   return 0;
 }
