@@ -34,9 +34,10 @@ public:
   void show_all_data();
 };
 
-void my_list::insert_node(node t)
+void my_list::insert_node(node t) // score값을 기준으로 sorted된 위치에 node t를 삽입하는 함수
 {
   node *tmp;
+
   tmp = new node;
   (*tmp) = t;
 
