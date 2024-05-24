@@ -92,6 +92,24 @@ Node *make_copy(Node *p) {
   return t;
 }
 
+bool equal_test(Node *p1, Node *p2) {
+  // 둘다 NULL이면 true
+  if ((p1 == NULL) && (p2 == NULL)) return true;
+  // 둘 중에 하나만 NULL이면 false
+  if (p1 == NULL) return false;
+  if (p2 == NULL) return false;
+  // 두 Node 값이 다르면 false
+  if (p1->name != p2->name) return false;
+  if (p1->score != p2->score) return false;
+
+  // 각 원소의 left와 right에 대해 recursive
+  if (equal_test(p1->left, p2->left) && equal_test(p1->right, p2->right)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 class MyTree {
  public:
   int nodeCount;
@@ -194,6 +212,11 @@ class MyTree {
         q.push(t->right);
       }
     }
+  }
+
+  void copy_tree(MyTree &t1, MyTree t2) {
+    t1.nodeCount = t2.nodeCount;
+    t1.root = make_copy(t2.root);
   }
 };
 
