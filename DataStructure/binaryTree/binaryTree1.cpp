@@ -80,6 +80,18 @@ void inorder_print(Node *p) {
   inorder_print(p->right);
 }
 
+Node *make_copy(Node *p) {
+  Node *t;
+  if (p == NULL) {
+    return NULL;
+  }
+  t = new Node;
+  *t = *p;
+  t->left = make_copy(p->left);
+  t->right = make_copy(p->right);
+  return t;
+}
+
 class MyTree {
  public:
   int nodeCount;
@@ -154,21 +166,27 @@ class MyTree {
     }
   }
 
+  // level order ( queue 사용 )
   void levelOrder() {
     queue<Node *> q;
     Node *t;
 
+    // root NULl이면 리턴
     if (root == NULL) {
       return;
     }
+    // root를 q에 넣고 시작
     q.push(root);
     while (1) {
+      // q가 empty면 종료
       if (q.empty()) {
         return;
       }
+      // q에서 한개 원소 pop
       t = q.front();
       q.pop();
       cout << t->name << " : " << t->score << endl;
+      // 그 원소의 left와 right에 대해 NULL이 아니면 q에 넣는다.
       if (t->left != NULL) {
         q.push(t->left);
       }
