@@ -39,8 +39,11 @@ public class FileNumber3 {
     System.out.println("The result of test file:");
     double txtAvg = printMinMaxAvg("input.txt");
 
-    int lcm, gcd;
-    // editing now
+    int datRounded = (int) Math.round(datAvg);
+    int txtRounded = (int) Math.round(txtAvg);
+    int lcm = getLcm(datRounded, txtRounded);
+    int gcd = getGcd(datRounded, txtRounded);
+
     fileName = "result.txt";
     try {
       outputStream = new PrintWriter(fileName);
@@ -48,6 +51,17 @@ public class FileNumber3 {
       System.out.println("Error opening the file " + fileName);
     }
 
+  }
+
+  private static int getGcd(int a, int b) {
+    if (b == 0) {
+      return a;
+    }
+    return getGcd(b, a % b);
+  }
+
+  private static int getLcm(int a, int b) {
+    return (a * b) / getGcd(a, b);
   }
 
   static double printMinMaxAvg(String fileName) {
