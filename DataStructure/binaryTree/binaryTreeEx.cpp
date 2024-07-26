@@ -124,7 +124,7 @@ void mytree::nonrecursive_inorder() {
       s.push(tmp);
       tmp = tmp->left;
     }
-    while (t == NULL) {
+    while (tmp == NULL) {
       if (s.empty()) return;
       tmp = s.top();
       s.pop();

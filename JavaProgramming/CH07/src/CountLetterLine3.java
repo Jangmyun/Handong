@@ -18,14 +18,14 @@ public class CountLetterLine3 {
 
       System.out.print("The sentence you entered is ASCII CODE ");
       for (int i = 0; i < input.length(); i++) {
-        int ascii = (int) (input.charAt(i));
-
-        System.out.printf("%d ", ascii);
+        if (input.charAt(i) != ' ') {
+          int ascii = (int) (input.charAt(i));
+          System.out.printf("%d ", ascii);
+        }
       }
       System.out.println();
 
       input = input.toUpperCase();
-      System.out.println(input);
 
       int[] freqArr = new int[26];
 

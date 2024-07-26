@@ -14,7 +14,6 @@ public class Rep03CheckDate3 {
       }
       String day = s.next();
       String year = s.next();
-
       isValidDate(month, day, year);
     }
 

@@ -40,11 +40,11 @@ public class FileNumber2 {
     printMinMaxAvg("input.txt");
   }
 
-  public static void printMinMaxAvg(String fileName) {
+  static void printMinMaxAvg(String fileName) {
     Scanner inputStream = null;
     try {
       inputStream = new Scanner(new File(fileName));
-    } catch (Exception e) {
+    } catch (FileNotFoundException e) {
       System.out.println("Error opening the file " + fileName);
     }
 
@@ -60,6 +60,7 @@ public class FileNumber2 {
       if (max < tmp) {
         max = tmp;
       }
+      sum += tmp;
       total++;
     }
     System.out.printf("Largest = %.1f\n", max);

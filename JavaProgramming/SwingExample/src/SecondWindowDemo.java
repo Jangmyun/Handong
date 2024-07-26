@@ -15,3 +15,9 @@ public class SecondWindowDemo {
 // getContentPane().add(Item)
 // Container getContentPane();
 // addWindowListener(WindowListener e);
+
+// setBackground(Color c)
+// setForeground(Color c)
+// setSize(width, height)
+// setTitle(String title);
+// setVisible(boolean isVisible);

@@ -51,11 +51,14 @@ public class FileNumber3 {
       System.out.println("Error opening the file " + fileName);
     }
 
+    outputStream.printf("GCD: %d\n", gcd);
+    outputStream.printf("LCM: %d\n", lcm);
+    outputStream.close();
   }
 
   private static int getGcd(int a, int b) {
-    if (b == 0) {
-      return a;
+    if (a % b == 0) {
+      return b;
     }
     return getGcd(b, a % b);
   }
@@ -84,6 +87,7 @@ public class FileNumber3 {
       if (max < tmp) {
         max = tmp;
       }
+      sum += tmp;
       total++;
     }
     double avg = sum / total;

@@ -14,11 +14,12 @@ public class CountLetterLine2 {
       input = s.nextLine();
     }
 
-    System.out.print("The sentence you enterd is ASCII CODE ");
+    System.out.print("The sentence you entered is ASCII CODE ");
     for (int i = 0; i < input.length(); i++) {
-      int ascii = (int) (input.charAt(i));
-
-      System.out.printf("%d ", ascii);
+      if (input.charAt(i) != ' ') {
+        int ascii = (int) (input.charAt(i));
+        System.out.printf("%d ", ascii);
+      }
     }
     System.out.println();
   }
