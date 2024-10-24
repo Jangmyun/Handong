@@ -1,0 +1,36 @@
+{
+  "students": [
+    {
+      "name": "Bill",
+      "age": 12,
+      "id": "1"
+    },
+    {
+      "name": "Sally",
+      "age": 22,
+      "id": "2"
+    },
+    {
+      "id": "a330",
+      "name": "asdf",
+      "age": "222"
+    },
+    {
+      "id": "fd24",
+      "name": "ff",
+      "age": "55"
+    }
+  ],
+  "courses": [
+    {
+      "id": "1",
+      "cname": "Open source studio",
+      "credit": 3
+    },
+    {
+      "id": "2",
+      "cname": "Programming studio",
+      "credit": 2
+    }
+  ]
+}
