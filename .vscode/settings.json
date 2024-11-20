@@ -3,6 +3,8 @@
     "typeinfo": "c",
     "string": "cpp",
     "cstddef": "cpp",
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "istream": "cpp",
+    "map": "cpp"
   }
 }
