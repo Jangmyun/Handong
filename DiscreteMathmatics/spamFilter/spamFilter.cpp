@@ -99,6 +99,14 @@ map<string, int> getWordFrequencies(const vector<string>& textVec) {
   return wordFrequencies;
 }
 
+int countTotalWords(map<string, int> wordFrequencies) {
+  int total = 0;
+  for (const pair<string, int> p : wordFrequencies) {
+    total += p.second;
+  }
+  return total;
+}
+
 void debugWordFrequencies(const map<string, int> m) {
   auto iter = m.begin();
   while (iter != m.end()) {
@@ -109,8 +117,18 @@ void debugWordFrequencies(const map<string, int> m) {
 
 int main() {
   vector<string> hamTrainDataset = loadData(TRAIN_HAM_FILE_PATH);
+  vector<string> spamTrainDataset = loadData(TRAIN_SPAM_FILE_PATH);
+
   map<string, int> hamTrainFrequencies = getWordFrequencies(hamTrainDataset);
-  debugWordFrequencies(hamTrainFrequencies);
+  map<string, int> spamTrainFrequencies = getWordFrequencies(spamTrainDataset);
+
+  int hamTotal = countTotalWords(hamTrainFrequencies);
+  int spamTotal = countTotalWords(spamTrainFrequencies);
+
+  vector<string> hamTestDataset = loadData(TEST_HAM_FILE_PATH);
+  vector<string> spamTestDataset = loadData(TEST_SPAM_FILE_PATH);
+  // cout << countTotalWords(hamTrainFrequencies) << '\n';
+  // debugWordFrequencies(hamTrainFrequencies);
   // printData(hamTrainDataset);
   return 0;
 }
