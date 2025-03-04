@@ -5,6 +5,7 @@
     "cstddef": "cpp",
     "iostream": "cpp",
     "istream": "cpp",
-    "map": "cpp"
+    "map": "cpp",
+    "vector": "cpp"
   }
 }
