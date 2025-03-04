@@ -1,6 +1,8 @@
+#include <cmath>
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <set>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -10,9 +12,16 @@
 #define TEST_HAM_FILE_PATH "./emails/test/dataset_ham_test20.csv"
 #define TEST_SPAM_FILE_PATH "./emails/test/dataset_spam_test20.csv"
 
-#define T {0.6, 0.7, 0.8, 0.9, 0.95}
+#define THRESHOLD {0.6, 0.7, 0.8, 0.9, 0.95}
 
 using namespace std;
+
+// (num, label, text)로 이루어진 Email 구조체
+struct Email {
+  int num;
+  string label;
+  string text;
+};
 
 // split 함수
 vector<string> splitText(string str, char delimiter) {
@@ -107,28 +116,98 @@ int countTotalWords(map<string, int> wordFrequencies) {
   return total;
 }
 
-void debugWordFrequencies(const map<string, int> m) {
-  auto iter = m.begin();
-  while (iter != m.end()) {
-    cout << "[" << iter->first << "," << iter->second << "]\n";
-    ++iter;
+string checkEmail(string email, double spamPercentage, double hamPercentage,
+                  map<string, int> spamFrequencies,
+                  map<string, int> hamFrequencies, int spamTotalWords,
+                  int hamTotalWords, int wordSetSize, double threshold) {
+  istringstream iss(email);
+  vector<string> words;
+  string word;
+  while (iss >> word) {
+    words.push_back(word);
   }
+
+  double logSpamPercentage = log(spamPercentage);
+  double logHamPercentage = log(hamPercentage);
+
+  for (string str : words) {
+    logSpamPercentage +=
+        log((spamFrequencies.count(str) ? spamFrequencies.at(str) : 0) + 1.0) -
+        log(spamTotalWords + wordSetSize);
+    logHamPercentage +=
+        log((hamFrequencies.count(str) ? hamFrequencies.at(str) : 0) + 1.0) -
+        log(hamTotalWords + wordSetSize);
+  }
+
+  double rw =
+      exp(logSpamPercentage) / (exp(logSpamPercentage) + exp(logHamPercentage));
+  return (rw >= threshold) ? "spam" : "ham";
+}
+
+double calculatePercentage(vector<string> testEmails, vector<string> trueLabels,
+                           double spamPercentage, double hamPercentage,
+                           map<string, int> spamFrequencies,
+                           map<string, int> hamFrequencies, int spamTotalWords,
+                           int hamTotalWords, int wordSetSize,
+                           double threshold) {
+  int correct = 0;
+  for (int i = 0; i < testEmails.size(); i++) {
+    string prediction = checkEmail(
+        testEmails[i], spamPercentage, hamPercentage, spamFrequencies,
+        hamFrequencies, spamTotalWords, hamTotalWords, wordSetSize, threshold);
+    if (prediction == trueLabels[i]) {
+      correct++;
+    }
+  }
+  return (double)correct / testEmails.size();
 }
 
 int main() {
+  // Train 데이터 읽어오기
   vector<string> hamTrainDataset = loadData(TRAIN_HAM_FILE_PATH);
   vector<string> spamTrainDataset = loadData(TRAIN_SPAM_FILE_PATH);
 
+  // train data의 단어 빈도 수 계산
   map<string, int> hamTrainFrequencies = getWordFrequencies(hamTrainDataset);
   map<string, int> spamTrainFrequencies = getWordFrequencies(spamTrainDataset);
 
+  // 전체 단어의 개수 세기
   int hamTotal = countTotalWords(hamTrainFrequencies);
   int spamTotal = countTotalWords(spamTrainFrequencies);
 
+  // Test 데이터 읽어오기
   vector<string> hamTestDataset = loadData(TEST_HAM_FILE_PATH);
   vector<string> spamTestDataset = loadData(TEST_SPAM_FILE_PATH);
-  // cout << countTotalWords(hamTrainFrequencies) << '\n';
-  // debugWordFrequencies(hamTrainFrequencies);
-  // printData(hamTrainDataset);
+
+  // word set size 구하기
+  set<string> wordSet;
+  for (const pair<string, int> p : hamTrainFrequencies) {
+    wordSet.insert(p.first);
+  }
+  for (const pair<string, int> p : spamTrainFrequencies) {
+    wordSet.insert(p.first);
+  }
+  int setSize = wordSet.size();
+
+  double spamPercentage = (double)spamTestDataset.size() /
+                          (spamTestDataset.size() + hamTestDataset.size());
+  double hamPercentage = (double)hamTestDataset.size() /
+                         (spamTestDataset.size() + hamTestDataset.size());
+
+  // spam test와 ham test가 모두 포함 된 string vector 생성
+  vector<string> testEmails = hamTestDataset;
+  testEmails.insert(testEmails.end(), spamTestDataset.begin(),
+                    spamTestDataset.end());
+  vector<string> trueLabels(hamTestDataset.size(), "ham");
+  trueLabels.insert(trueLabels.end(), spamTestDataset.begin(),
+                    spamTestDataset.end());
+
+  for (double threshold : THRESHOLD) {
+    double accuracy = calculatePercentage(
+        testEmails, trueLabels, spamPercentage, hamPercentage,
+        spamTrainFrequencies, hamTrainFrequencies, spamTotal, hamTotal, setSize,
+        threshold);
+    cout << "threshold:" << threshold << "/ accuracy:" << accuracy << '\n';
+  }
   return 0;
 }

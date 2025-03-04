@@ -1,0 +1,84 @@
+Number: 101
+Label: ham
+Text: Subject: re : panenergy 9 / 00
+
+Number: 102
+Label: ham
+Text: Subject: hpl nomination changes for july 25 and july 26
+
+Number: 103
+Label: ham
+Text: Subject: 98 - 3405 activity being allocated / nomed @ 98 - 9643
+
+Number: 120866
+Label:  138544 
+Text:  139661 ( relative to 98 - 3405 ) ? this activity is now being
+
+Number: 104
+Label: ham
+Text: Subject: new locations
+
+Number: 105
+Label: ham
+Text: Subject: copanno changes
+
+Number: 106
+Label: ham
+Text: Subject: nom / actual flow for 2 / 22 / 01
+
+Number: 107
+Label: ham
+Text: Subject: re : meter # : 1266 ; august 2000 / allocation exception
+
+Number: 108
+Label: ham
+Text: Subject: meter 986899 for november
+
+Number: 109
+Label: ham
+Text: Subject: oasis transport imbalances
+
+Number: 110
+Label: ham
+Text: Subject: re : basin production from ga 213
+
+Number: 111
+Label: ham
+Text: Subject: please process immediately to avoid loss of information
+
+Number: 112
+Label: ham
+Text: Subject: notes from initial enom use case meeting - 2 / 2 / 00
+
+Number: 113
+Label: ham
+Text: Subject: memo and presentation from brian redmond
+
+Number: 114
+Label: ham
+Text: Subject: enron nom for february 16 , 2001
+
+Number: 115
+Label: ham
+Text: Subject: from your coach
+
+Number: 116
+Label: ham
+Text: Subject: equistar sale off of tejas or midcon
+
+Number: 117
+Label: ham
+Text: Subject: hpl meter # 985579
+
+Number: 118
+Label: ham
+Text: Subject: new nomination - tejas
+
+Number: 119
+Label: ham
+Text: Subject: re : october wellhead
+
+Number: 120
+Label: ham
+Text: Subject: zero path termination in path manager
+
